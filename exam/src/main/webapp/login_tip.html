@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body onload="updateWait()">
+<center>
+    请登录后查看
+    <br><br>
+    页面将<span id="wait">&nbsp;5&nbsp;</span>在秒后跳转
+</center>
+<meta http-equiv="refresh" content="4;url=/exam/login.html">
+
+
+<script type="text/javascript">
+    var wait = 4;
+    updateWait = function () {
+        //每隔一秒刷新wait值
+        window.setInterval( function () { document.getElementById("wait").innerHTML = "&nbsp;"+wait--+"&nbsp;"; }, 1000);
+    }
+
+</script>
+
+<form action="login.html">
+    <input type="submit" value="立即跳转">
+</form>
+
+</body>
+</html>
