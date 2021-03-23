@@ -1,6 +1,6 @@
 package cn.cuit.exam.domain;
 
-public class examinee_t {
+public class Examinee {
     private int eid;
     private String sno;
     private int scid;

@@ -1,6 +1,6 @@
 package cn.cuit.exam.domain;
 
-public class class_t {
+public class Class {
 
     private String className;
     private String major;
@@ -8,7 +8,7 @@ public class class_t {
     private int grade;
     private int classNum;
 
-    public class_t(String className, String major, String school, int grade, int classNum) {
+    public Class(String className, String major, String school, int grade, int classNum) {
         this.className = className;
         this.major = major;
         this.school = school;
@@ -16,7 +16,7 @@ public class class_t {
         this.classNum = classNum;
     }
 
-    public class_t() {}
+    public Class() {}
 
     public String getClassName() {
         return className;

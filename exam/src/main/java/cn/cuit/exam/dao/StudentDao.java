@@ -1,7 +1,6 @@
 package cn.cuit.exam.dao;
 
-import cn.cuit.exam.domain.studentUser;
-import cn.cuit.exam.domain.student_t;
+import cn.cuit.exam.domain.Student;
 import cn.cuit.exam.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -20,10 +19,10 @@ public class StudentDao {
      * @param sno
      * @return
      */
-    public student_t queryBySno(String sno) {
+    public Student queryBySno(String sno) {
         String sql = "select * from student_t where sno = ?";
         try {
-            student_t stu = template.queryForObject(sql, new BeanPropertyRowMapper<student_t>(student_t.class), sno);
+            Student stu = template.queryForObject(sql, new BeanPropertyRowMapper<Student>(Student.class), sno);
             return stu;
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -40,7 +39,7 @@ public class StudentDao {
      * @param sno
      * @return
      */
-    public List<student_t> queryForStudent(String major, int grade, String className, String sname, String sno) {
+    public List<Student> queryForStudent(String major, int grade, String className, String sname, String sno) {
         List<Map<String, Object>> list[] = new List[5];
         StringBuilder sql = new StringBuilder("select * from class_t, student_t where class_t.classname = student_t.classname ");
         int cnt = 0;
@@ -75,15 +74,15 @@ public class StudentDao {
             cnt++;
         }
 
-        Map<student_t, Integer> map = new HashMap<>();
-        List<student_t> res = new LinkedList<>();
+        Map<Student, Integer> map = new HashMap<>();
+        List<Student> res = new LinkedList<>();
 
         if (cnt != 0) {
             for (List i : list) {
                 if (i != null) {
                     for (Object j : i) {
                         Map<String, Object> k = (Map<String, Object>)j;
-                        student_t temp = new student_t();
+                        Student temp = new Student();
                         temp.setClassName(k.get("classname").toString());
                         temp.setSname(k.get("sname").toString());
                         temp.setSno(k.get("sno").toString());
@@ -95,13 +94,13 @@ public class StudentDao {
                     }
                 }
             }
-            for (student_t k : map.keySet()) {
+            for (Student k : map.keySet()) {
                 if (map.get(k) == cnt) res.add(k);
             }
         } else {
             List<Map<String, Object>> list_t = template.queryForList(sql.toString());
             for (Map<String, Object> i : list_t) {
-                res.add(new student_t(i.get("Sno").toString(), i.get("Sname").toString(), i.get("classname").toString()));
+                res.add(new Student(i.get("Sno").toString(), i.get("Sname").toString(), i.get("classname").toString()));
             }
         }
 

@@ -1,17 +1,17 @@
 package cn.cuit.exam.domain;
 
-public class student_t {
+public class Student {
     private String sno;
     private String sname;
     private String className;
 
-    public student_t(String sno, String sname, String className) {
+    public Student(String sno, String sname, String className) {
         this.sno = sno;
         this.sname = sname;
         this.className = className;
     }
 
-    public student_t() {}
+    public Student() {}
 
     public String getSno() {
         return sno;

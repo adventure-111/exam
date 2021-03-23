@@ -1,17 +1,17 @@
 package cn.cuit.exam.domain;
 
-public class user_t {
+public class User {
     private String username;
     private String password;
     private String role;
 
-    public user_t(String username, String password, String role) {
+    public User(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public user_t() {}
+    public User() {}
 
     public String getUsername() {
         return username;

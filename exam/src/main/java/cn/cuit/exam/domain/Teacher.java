@@ -1,13 +1,13 @@
 package cn.cuit.exam.domain;
 
-public class teacher_t {
+public class Teacher {
     private String sno;
     private String tname;
     private String school;
     private int past;
     private char task;
 
-    public teacher_t(String sno, String tname, String school, int past, char task) {
+    public Teacher(String sno, String tname, String school, int past, char task) {
         this.sno = sno;
         this.tname = tname;
         this.school = school;
@@ -15,7 +15,7 @@ public class teacher_t {
         this.task = task;
     }
 
-    public teacher_t() {}
+    public Teacher() {}
 
     public String getSno() {
         return sno;

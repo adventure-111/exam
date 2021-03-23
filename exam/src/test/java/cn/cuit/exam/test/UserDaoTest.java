@@ -2,7 +2,7 @@ package cn.cuit.exam.test;
 
 import cn.cuit.exam.dao.UserDao;
 import cn.cuit.exam.domain.School;
-import cn.cuit.exam.domain.admin_t;
+import cn.cuit.exam.domain.Admin;
 import org.junit.Test;
 
 public class UserDaoTest {
@@ -10,10 +10,10 @@ public class UserDaoTest {
     @Test
     public void testLogin() {
         UserDao dao = new UserDao();
-        admin_t loginUser = new admin_t();
+        Admin loginUser = new Admin();
         loginUser.setUsername("jsj");
         loginUser.setPassword("123");
-        admin_t user = dao.login(loginUser);
+        Admin user = dao.login(loginUser);
 
         System.out.println(user.getSchool());
     }
@@ -21,7 +21,7 @@ public class UserDaoTest {
     @Test
     public void updatePassword() {
         UserDao dao = new UserDao();
-        admin_t user = new admin_t();
+        Admin user = new Admin();
 
         user.setUsername("jsj");
         user.setPassword("123");
@@ -32,6 +32,6 @@ public class UserDaoTest {
 
     @Test
     public void test1() {
-        System.out.println(School.getName("1"));
+//        System.out.println(School.getName("1"));
     }
 }

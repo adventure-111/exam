@@ -1,15 +1,15 @@
 package cn.cuit.exam.domain;
 
-public class invigilator_t {
+public class Invigilator {
     private String sno;
     private String present;
 
-    public invigilator_t(String sno, String present) {
+    public Invigilator(String sno, String present) {
         this.sno = sno;
         this.present = present;
     }
 
-    public invigilator_t() {}
+    public Invigilator() {}
 
     public String getSno() {
         return sno;

@@ -1,6 +1,6 @@
 package cn.cuit.exam.dao;
 
-import cn.cuit.exam.domain.admin_t;
+import cn.cuit.exam.domain.Admin;
 import cn.cuit.exam.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -15,10 +15,10 @@ public class UserDao {
      * @param loginUser
      * @return
      */
-    public admin_t login(admin_t loginUser) {
+    public Admin login(Admin loginUser) {
         try {
             String sql = "select * from admin_t where username = ? and password = ?";
-            admin_t user = template.queryForObject(sql, new BeanPropertyRowMapper<admin_t>(admin_t.class),
+            Admin user = template.queryForObject(sql, new BeanPropertyRowMapper<Admin>(Admin.class),
                     loginUser.getUsername(), loginUser.getPassword());
             return user;
         } catch (DataAccessException e) {
@@ -32,10 +32,10 @@ public class UserDao {
      * @param username
      * @return
      */
-    public admin_t findByUsername(String username) {
+    public Admin findByUsername(String username) {
         String sql = "select * from admin_t where username = ?";
         try {
-            admin_t user = template.queryForObject(sql, new BeanPropertyRowMapper<admin_t>(admin_t.class), username);
+            Admin user = template.queryForObject(sql, new BeanPropertyRowMapper<Admin>(Admin.class), username);
             return user;
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -49,9 +49,9 @@ public class UserDao {
      * @param newPwd
      * @return
      */
-    public admin_t updatePwd(admin_t user, String newPwd) {
-        admin_t local_user = findByUsername(user.getUsername());
-        if (local_user == null || !admin_t.isPwdLegal(newPwd)) {
+    public Admin updatePwd(Admin user, String newPwd) {
+        Admin local_user = findByUsername(user.getUsername());
+        if (local_user == null || !Admin.isPwdLegal(newPwd)) {
             return null;
         } else {
             try {

@@ -1,4 +1,4 @@
-<%@ page import="cn.cuit.exam.domain.admin_t" %>
+<%@ page import="cn.cuit.exam.domain.Admin" %>
 <%@ page import="cn.cuit.exam.domain.School" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -89,8 +89,8 @@ background-position: center 0; background-size: cover;">
                 <span style="font-size: small; font-weight: 800; color:white;">
                     ${sessionScope.user.username} (
                     <%
-                        String school = ((admin_t)session.getAttribute("user")).getSchool();
-                        out.print(School.getName(school));
+                        String school = ((Admin)session.getAttribute("user")).getSchool();
+                        out.print(new School().getName(school));
                     %>
                     )
                 </span>

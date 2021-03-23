@@ -1,15 +1,15 @@
 package cn.cuit.exam.domain;
 
-public class classroom_t {
+public class Classroom {
     private String classroom;
     private int crNum;
 
-    public classroom_t(String classroom, int crNum) {
+    public Classroom(String classroom, int crNum) {
         this.classroom = classroom;
         this.crNum = crNum;
     }
 
-    public classroom_t() {}
+    public Classroom() {}
 
     public String getClassroom() {
         return classroom;

@@ -1,19 +1,19 @@
 package cn.cuit.exam.domain;
 
-public class course_t {
+public class Course {
     private String code;
     private String cname;
     private String school;
     private int courseNum;
 
-    public course_t(String code, String cname, String school, int courseNum) {
+    public Course(String code, String cname, String school, int courseNum) {
         this.code = code;
         this.cname = cname;
         this.school = school;
         this.courseNum = courseNum;
     }
 
-    public course_t() {}
+    public Course() {}
 
     public String getCode() {
         return code;

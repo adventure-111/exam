@@ -2,22 +2,13 @@ package cn.cuit.exam.domain;
 
 import java.util.Date;
 
-public class exam_p_t {
-    private int scid;
+public class Exam {
     private String classroom;
     private Date date;
     private String start;
     private String end;
     private String teacher1;
     private String teacher2;
-
-    public int getScid() {
-        return scid;
-    }
-
-    public void setScid(int scid) {
-        this.scid = scid;
-    }
 
     public String getClassroom() {
         return classroom;

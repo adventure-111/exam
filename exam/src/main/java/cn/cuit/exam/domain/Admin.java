@@ -1,21 +1,21 @@
 package cn.cuit.exam.domain;
 
-public class admin_t {
+public class Admin {
     private String username;
     private String password;
     private String school;
 
-    public admin_t(String username, String password) {
+    public Admin(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public admin_t(String username, String password, String school) {
+    public Admin(String username, String password, String school) {
         this(username, password);
         this.school = school;
     }
 
-    public admin_t() {}
+    public Admin() {}
 
     public String getUsername() {
         return username;

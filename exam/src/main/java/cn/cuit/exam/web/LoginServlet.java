@@ -1,7 +1,7 @@
 package cn.cuit.exam.web;
 
 import cn.cuit.exam.dao.UserDao;
-import cn.cuit.exam.domain.admin_t;
+import cn.cuit.exam.domain.Admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +21,7 @@ public class LoginServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        admin_t loginUser = new admin_t();
+        Admin loginUser = new Admin();
         loginUser.setUsername(username);
         loginUser.setPassword(password);
 
@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             }
         } else {
             UserDao dao = new UserDao();
-            admin_t user = dao.login(loginUser);
+            Admin user = dao.login(loginUser);
             StringBuilder json = new StringBuilder();
             if (user == null) {
                 json.append("{\"success\" : true}");

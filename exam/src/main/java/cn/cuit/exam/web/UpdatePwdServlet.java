@@ -1,7 +1,7 @@
 package cn.cuit.exam.web;
 
 import cn.cuit.exam.dao.UserDao;
-import cn.cuit.exam.domain.admin_t;
+import cn.cuit.exam.domain.Admin;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -23,7 +23,7 @@ public class UpdatePwdServlet extends HttpServlet {
         String newPwd = req.getParameter("newPwd");
 
         UserDao dao = new UserDao();
-        admin_t user = dao.updatePwd(new admin_t(username, oldPwd), newPwd);
+        Admin user = dao.updatePwd(new Admin(username, oldPwd), newPwd);
         if (user == null) {
             req.setAttribute("error", "error");
             req.getRequestDispatcher("updatePwd.jsp").forward(req, resp);
