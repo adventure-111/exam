@@ -1,17 +1,23 @@
 package cn.cuit.exam.domain;
 
 public class User {
-    private String username;
-    private String password;
-    private String role;
+    protected String username;
+    protected String password;
+    private char role;
 
-    public User(String username, String password, String role) {
+    public User(String username, String password, char role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public User() {}
+    public User(String username, String passward) {
+        this.username = username;
+        this.password = passward;
+    }
+
+    public User() {
+    }
 
     public String getUsername() {
         return username;
@@ -29,11 +35,20 @@ public class User {
         this.password = password;
     }
 
-    public String getRole() {
+    public char getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(char role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                '}';
     }
 }

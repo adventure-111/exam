@@ -1,9 +1,16 @@
 <%@ page import="cn.cuit.exam.domain.Admin" %>
-<%@ page import="cn.cuit.exam.domain.School" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html lang="en">
 <head>
+
+    <c:if test="${empty sessionScope.user}">
+<%--        用户登录成功后才可访问该页面--%>
+        <c:redirect url="/login_tip.html"></c:redirect>
+    </c:if>
+
+
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>高等院校考试计划安排系统-管理端</title>
@@ -87,12 +94,7 @@ background-position: center 0; background-size: cover;">
         <div style="float: right; margin-left: 200px; height: 60px; width:350px;">
             <div style="margin-top: 30px; float: left; height: 30px; width: 200px; ">
                 <span style="font-size: small; font-weight: 800; color:white;">
-                    ${sessionScope.user.username} (
-                    <%
-                        String school = ((Admin)session.getAttribute("user")).getSchool();
-                        out.print(new School().getName(school));
-                    %>
-                    )
+<%--                    ${requestScope.user.username}(${requestScope.user.school})--%>
                 </span>
             </div>
             <div style="float: left; margin-top: 30px; background-color: #124136; height: 30px;width: 80px;">

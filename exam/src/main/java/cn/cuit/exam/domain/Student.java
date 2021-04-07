@@ -1,24 +1,29 @@
 package cn.cuit.exam.domain;
 
-public class Student {
-    private String sno;
+public class Student extends User{
     private String sname;
     private String className;
+    private String major;
 
-    public Student(String sno, String sname, String className) {
-        this.sno = sno;
+    public Student(String username, String password, String sname, String className, String major) {
+        super(username, password);
         this.sname = sname;
         this.className = className;
+        this.major = major;
     }
 
-    public Student() {}
-
-    public String getSno() {
-        return sno;
+    public Student() {
     }
 
-    public void setSno(String sno) {
-        this.sno = sno;
+    @Override
+    public String toString() {
+        return "Student{" +
+                "sname='" + sname + '\'' +
+                ", className='" + className + '\'' +
+                ", major='" + major + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 
     public String getSname() {
@@ -37,12 +42,31 @@ public class Student {
         this.className = className;
     }
 
-    @Override
-    public String toString() {
-        return "student_t{" +
-                "sno='" + sno + '\'' +
-                ", sname='" + sname + '\'' +
-                ", className='" + className + '\'' +
-                '}';
+    // 通过班名获取年级
+    public static String getGrade(String cname) {
+        String grade = cname.length() == 5 ? cname.substring(2, 4) : cname.substring(4, 6);
+
+        return grade;
+    }
+
+    public String getGrade() {
+        String grade = className.length() == 5 ? className.substring(2, 4) : className.substring(4, 6);
+
+        return grade;
+    }
+
+    // 通过专业代码获取学院代码
+    public static String getSchool(String major) {
+        String school =  String.valueOf(Integer.valueOf(major.substring(0, 2)));
+
+        return school;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
     }
 }

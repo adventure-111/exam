@@ -11,7 +11,7 @@
     <title>修改密码</title>
 </head>
 <body>
-<form action="/exam/updatePwd" method="post">
+<form action="/updatePwd" method="post">
     用户名: <input type="text" name="username"><br>
     原密码: <input type="password" name="oldPwd"><br>
     新密码: <input type="password" name="newPwd" placeholder="密码只允许由数字、字母或!、@、#组成"><br>

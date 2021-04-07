@@ -1,6 +1,6 @@
 package cn.cuit.exam.domain;
 
-public class Sc {
+public class SC {
     private int scid;
     private String number;
     private String code;

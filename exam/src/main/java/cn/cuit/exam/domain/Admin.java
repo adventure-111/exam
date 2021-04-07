@@ -1,8 +1,6 @@
 package cn.cuit.exam.domain;
 
-public class Admin {
-    private String username;
-    private String password;
+public class Admin extends User{
     private String school;
 
     public Admin(String username, String password) {
@@ -39,7 +37,7 @@ public class Admin {
 
     public void setSchool(String school) {
         this.school = school;
-        }
+    }
 
     /**
      * 判断密码是否合法

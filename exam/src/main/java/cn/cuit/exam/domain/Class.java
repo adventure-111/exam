@@ -1,7 +1,6 @@
 package cn.cuit.exam.domain;
 
 public class Class {
-
     private String className;
     private String major;
     private String school;
@@ -16,7 +15,19 @@ public class Class {
         this.classNum = classNum;
     }
 
-    public Class() {}
+    public Class() {
+    }
+
+    @Override
+    public String toString() {
+        return "Class{" +
+                "className='" + className + '\'' +
+                ", major='" + major + '\'' +
+                ", school='" + school + '\'' +
+                ", grade=" + grade +
+                ", classNum=" + classNum +
+                '}';
+    }
 
     public String getClassName() {
         return className;

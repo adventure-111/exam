@@ -3,6 +3,7 @@ package cn.cuit.exam.dao;
 import cn.cuit.exam.domain.Admin;
 import cn.cuit.exam.util.JDBCUtils;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -15,11 +16,12 @@ public class UserDao {
      * @param loginUser
      * @return
      */
-    public Admin login(Admin loginUser) {
+    public Admin login(Admin loginUser) throws EmptyResultDataAccessException{
         try {
             String sql = "select * from admin_t where username = ? and password = ?";
             Admin user = template.queryForObject(sql, new BeanPropertyRowMapper<Admin>(Admin.class),
                     loginUser.getUsername(), loginUser.getPassword());
+            user.setSchool(this.getSchool(user.getUsername()));
             return user;
         } catch (DataAccessException e) {
             e.printStackTrace();
@@ -57,12 +59,20 @@ public class UserDao {
             try {
                 String sql = "update admin_t set password = ? where username = ?";
                 template.update(sql, newPwd, user.getUsername());
-                local_user.setPassword(newPwd);
-                return local_user;
+                user.setPassword(newPwd);
+                return user;
             } catch (DataAccessException e) {
                 e.printStackTrace();
                 return null;
             }
         }
+    }
+
+    // 获取所在学院
+    public String getSchool(String username) {
+        String sql = "select school from admin_t where username = ?";
+        String school = template.queryForObject(sql, String.class, username);
+
+        return school;
     }
 }

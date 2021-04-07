@@ -1,5 +1,7 @@
 package cn.cuit.exam.web;
 
+//web
+
 import cn.cuit.exam.dao.UserDao;
 import cn.cuit.exam.domain.Admin;
 
@@ -25,10 +27,12 @@ public class LoginServlet extends HttpServlet {
         loginUser.setUsername(username);
         loginUser.setPassword(password);
 
-        if (username == null || password == null) {
-            HttpSession session = req.getSession(false);
-            if (session.getAttribute("user") == null) {
-                req.getRequestDispatcher("login_tip.html").forward(req, resp);
+
+        if ( username == null || password == null) {    // 直接输入 /exam/manage 的情况
+            HttpSession mysession = req.getSession(false);
+            if ( (Admin)mysession.getAttribute("user") == null ) {
+                // 未登录跳转到登录提示页面
+                req.getRequestDispatcher("/login_tip.html").forward(req, resp);
             } else {
                 req.getRequestDispatcher("/guanli.jsp").forward(req, resp);
             }
@@ -36,15 +40,19 @@ public class LoginServlet extends HttpServlet {
             UserDao dao = new UserDao();
             Admin user = dao.login(loginUser);
             StringBuilder json = new StringBuilder();
+            // {"success" : false } {"success" : true }
             if (user == null) {
-                json.append("{\"success\" : true}");
+                json.append("{\"success\" : false }");
             } else {
-                req.getSession().setAttribute("user", user);
-                json.append("{\"success\" : true}");
+                req.getSession().setAttribute("user", user); //创建session对象保存user
+                json.append("{\"success\" : true }");
             }
-            System.out.println("json = " + json);
+            System.out.println("json="+json);
             resp.getWriter().print(json);
         }
+
+
+
     }
 
     @Override

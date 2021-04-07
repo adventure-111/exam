@@ -1,29 +1,29 @@
 package cn.cuit.exam.domain;
 
-public class Teacher {
-    private String sno;
+public class Teacher extends User{
     private String tname;
     private String school;
-    private int past;
-    private char task;
 
-    public Teacher(String sno, String tname, String school, int past, char task) {
-        this.sno = sno;
+
+    public Teacher(String username, String passward, String tname, String school) {
+        super(username, passward);
         this.tname = tname;
         this.school = school;
-        this.past = past;
-        this.task = task;
     }
 
-    public Teacher() {}
-
-    public String getSno() {
-        return sno;
+    public Teacher() {
     }
 
-    public void setSno(String sno) {
-        this.sno = sno;
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                " tname='" + tname + '\'' +
+                ", school='" + school + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
+
 
     public String getTname() {
         return tname;
@@ -41,19 +41,4 @@ public class Teacher {
         this.school = school;
     }
 
-    public int getPast() {
-        return past;
-    }
-
-    public void setPast(int past) {
-        this.past = past;
-    }
-
-    public char getTask() {
-        return task;
-    }
-
-    public void setTask(char task) {
-        this.task = task;
-    }
 }
