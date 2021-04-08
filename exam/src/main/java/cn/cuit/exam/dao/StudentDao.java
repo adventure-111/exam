@@ -2,13 +2,11 @@ package cn.cuit.exam.dao;
 
 import cn.cuit.exam.domain.Student;
 import cn.cuit.exam.util.JDBCUtils;
-import javafx.beans.binding.Bindings;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.security.AccessControlContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -122,33 +120,7 @@ public class StudentDao {
         return success;
     }
 
-    // 修改信息
-    public void update(String sno, String sname, String password, String major, String classname) {
-        String sql1 = "update user_t set password = ? where username = ? ";
-        template.update(sql1, password, sno);
-
-        String sql2 = "update student_t set sname = ? where sno = ?";
-        template.update(sql2, sname, sno);
-
-        String sql3 = "select classname from student_t where sno = ?";
-        String cname = template.queryForObject(sql3, String.class, sno);
-
-        if ( cname != classname ) {
-            // 原班级中 classnum - 1
-            String sql4 = "update class_t set classnum = classnum - 1 where classname = ? ";
-            template.update(sql4, cname);
-            // 新班级中的 classnum + 1
-            String sql5 = "update class_t set classnum = classnum + 1 where classname = ? ";
-            int res = template.update(sql5, classname);
-            if ( res == 0 ) {
-                String sql6 = "insert into class_t(className, major, school, grade, classnum) values(?, ?, ?, ?, 1)";
-                template.update(sql6, classname, major, Student.getSchool(major), Student.getGrade(classname));                }
-            // 学生表 classname 更新
-            String sql7 = "update student_t set classname = ? where sno = ?";
-            template.update(sql7, classname, sno);
-        }
-
-    }
+    //修改信息
     public void update(Map<String, String[]> condition) {
         System.out.println(condition.toString());
         String sno = condition.get("username")[0];
@@ -159,8 +131,6 @@ public class StudentDao {
         String school = condition.get("school")[0];
         System.out.println(school);
         System.out.println(classname);
-
-
 
         String sql1 = "update user_t set password = ? where username = ? ";
         template.update(sql1, password, sno);
@@ -268,5 +238,12 @@ public class StudentDao {
         int count = template.queryForObject(sql.toString(), Integer.class, params.toArray());
 
         return count;
+    }
+
+    // 查询学院所有年级
+    public List<String> getGrades(String school) {
+        String sql = "select distinct grade from class_t c where school = '"+school+"'";
+        List<String> grades = template.queryForList(sql, String.class);
+        return grades;
     }
 }

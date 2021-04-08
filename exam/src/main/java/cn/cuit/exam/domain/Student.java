@@ -44,7 +44,7 @@ public class Student extends User{
 
     // 通过班名获取年级
     public static String getGrade(String cname) {
-        String grade = cname.length() == 5 ? cname.substring(2, 4) : cname.substring(4, 6);
+        String grade = cname.length() == 5 ? cname.substring(2, 4) : cname.substring(3, 5);
 
         return grade;
     }
@@ -55,12 +55,6 @@ public class Student extends User{
         return grade;
     }
 
-    // 通过专业代码获取学院代码
-    public static String getSchool(String major) {
-        String school =  String.valueOf(Integer.valueOf(major.substring(0, 2)));
-
-        return school;
-    }
 
     public String getMajor() {
         return major;

@@ -1,8 +1,6 @@
 package cn.cuit.exam.web;
 
-import cn.cuit.exam.dao.MajorDao;
-import cn.cuit.exam.domain.Admin;
-import org.xml.sax.SAXNotRecognizedException;
+import cn.cuit.exam.dao.StudentDao;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -10,27 +8,27 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "SelectMajor", value = "/SelectMajor")
-public class SelectMajorServlet extends HttpServlet {
+@WebServlet(name = "SelectGrade", value = "/SelectGrade")
+public class SelectGradeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 设置请求响应格式
-        request.setCharacterEncoding("UTF-8");
+        // 设置响应和请求的格式
         response.setContentType("text/html;charset=utf-8");
         response.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
         // 获取参数
         String school = request.getParameter("school");
 
-        // 查询学院专业
-        MajorDao majorDao = new MajorDao();
-        List<String> majorList = majorDao.getMajors(school);
+        // 查询年级
+        StudentDao dao = new StudentDao();
+        List<String> grades = dao.getGrades(school);
 
         // 拼接json字符串
         StringBuilder json = new StringBuilder("[ ");
-        for (String major: majorList) {
+        for (String grade: grades) {
             json.append("{ \"name\": \"");
-            json.append(major);
+            json.append(grade);
             json.append("\" },");
         }
         String endsql = json.substring(0, json.length()-1) + " ]";
@@ -38,10 +36,11 @@ public class SelectMajorServlet extends HttpServlet {
 
         // 响应
         response.getWriter().print(endsql);
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doGet(request, response);
+
     }
 }

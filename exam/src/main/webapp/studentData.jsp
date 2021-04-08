@@ -35,13 +35,13 @@
     <form class="form-inline" style="margin: 30px 30px" action="${pageContext.request.contextPath}/studentData">
         <div class="form-group">
             <label for="major_query">专业: </label>
-            <select class="form-control major_class" id="major_query" name="major" style="width: 200px; margin-right: 20px">
-                <option>${condition.major[0]}</option>
+            <select class="form-control" id="major_query" name="major" style="width: 200px; margin-right: 20px">
             </select>
         </div>
         <div class="form-group">
-            <label for="grade_query">年级</label>
-            <input type="text" class="form-control" id="grade_query" name="grade" value="${condition.grade[0]}" style="width: 80px; margin-right: 20px">
+            <label for="grade_query">年级: </label>
+            <select class="form-control" id="grade_query" name="major" style="width: 80px; margin-right: 20px">
+            </select>
         </div>
         <div class="form-group">
             <label for="classname_query">班级</label>
@@ -191,6 +191,7 @@
         // 去掉文本框所有拼写检查
         $("input[type='text'],textarea").attr('spellcheck',false);
         getMajors_query();
+        getGrades_query();
     })
 
     // 修改功能（专业）下拉菜单
@@ -236,7 +237,15 @@
             "${pageContext.request.contextPath}/SelectGrade",
             {school : "${sessionScope.user.school}"},
             function (data) {
-
+                if ( "${condition.grade[0]}" != "" )
+                    var html = "<option value='${condition.grade[0]}'>${condition.grade[0]}</option> ";
+                else
+                    var html = "<option value=''></option> ";
+                $.each(data, function(i, grade) { // 遍历json数组应该将data 放在里面
+                    if ( "${condition.grade[0]}"!= grade.name )
+                        html += "<option value='"+grade.name+"'>"+grade.name+"</option> ";
+                })
+                $('#grade_query').html(html);
             },
             "json"
         )
