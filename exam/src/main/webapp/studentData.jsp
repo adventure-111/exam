@@ -40,7 +40,7 @@
         </div>
         <div class="form-group">
             <label for="grade_query">年级: </label>
-            <select class="form-control" id="grade_query" name="major" style="width: 80px; margin-right: 20px">
+            <select class="form-control" id="grade_query" name="grade" style="width: 80px; margin-right: 20px">
             </select>
         </div>
         <div class="form-group">
@@ -56,12 +56,13 @@
             <input type="text" class="form-control" id="sno_query" name="sno" value="${condition.sno[0]}" style="width: 100px; margin-right: 20px">
         </div>
         <button type="submit" class="btn btn-default">查询</button>
+        <button type="button" id="delButton" class="btn btn-default" style="width: 100px; margin-right: 20px">删除选中</button>
     </form>
 
     <div class="center-block" >
         <table border="1" class="table table-hover" style="vertical-align: middle; text-align: center; background: #bcf0ec; margin-left: 50px;  width: 650px; border-style: solid; border-color: white">
             <tr style="background-color: rgb(129, 219, 219); height: 40px;">
-                <td><input type="checkbox"></td>
+                <td><input type="checkbox" id="firstCB"></td>
                 <td>姓名</td>
                 <td>学号</td>
                 <td>密码</td>
@@ -72,19 +73,20 @@
 
             <c:forEach items="${requestScope.pageBean.list}" var="st" varStatus="vs">
                 <tr>
-                    <td><input type="checkbox"></td>
+                    <td><input type="checkbox" class="boxs" value="${st.username}"></td>
                     <td>${st.sname}</td>
                     <td>${st.username}</td>
                     <td>${st.password}</td>
                     <td>${st.className}</td>
                     <td>${st.major}</td>
-                    <td><a onclick="getMajors()" data-toggle="modal" data-target="#myModal" data-username=${st.username} data-sname=${st.sname}
+                    <td><a id="updateButton" data-toggle="modal" data-target="#myModal" data-username=${st.username} data-sname=${st.sname}
                            data-password=${st.password} data-classname=${st.className} data-major=${st.major}>修改</a></td>
 
                 </tr>
             </c:forEach>
         </table>
     </div>
+
     <nav aria-label="Page navigation">
         <ul class="pagination">
             <%-- 第一页时 不可点击上一页按钮--%>
@@ -100,7 +102,12 @@
             </li>
 
             <c:forEach begin="1" end="${pageBean.totalPage}" var="index">
-                <li><a href="${pageContext.request.contextPath}/studentData?currentPage=${index}&rows=${rows}&major=${condition.major[0]}&grade=${condition.grade[0]}&className=${condition.className[0]}&sname=${condition.sname[0]}&sno=${condition.sno[0]}">${index}</a></li>
+                <c:if test="${pageBean.currentPage == index}">
+                    <li><a href="${pageContext.request.contextPath}/studentData?currentPage=${index}&rows=${rows}&major=${condition.major[0]}&grade=${condition.grade[0]}&className=${condition.className[0]}&sname=${condition.sname[0]}&sno=${condition.sno[0]}" style="background: steelblue; color: aliceblue">${index}</a></li>
+                </c:if>
+                <c:if test="${pageBean.currentPage != index}">
+                    <li><a href="${pageContext.request.contextPath}/studentData?currentPage=${index}&rows=${rows}&major=${condition.major[0]}&grade=${condition.grade[0]}&className=${condition.className[0]}&sname=${condition.sname[0]}&sno=${condition.sno[0]}">${index}</a></li>
+                </c:if>
             </c:forEach>
 
                 <%-- 最后一页时 不可点击下一页按钮--%>
@@ -140,7 +147,7 @@
                     <input type="hidden" name="username" id="username">
                     <input type="hidden" name="school" value="${sessionScope.user.school}">
                     <div class="form-group">
-                        <label for="username" class="control-label" style="float: left" disabled="">学号:</label>
+                        <label for="username1" class="control-label" style="float: left" disabled="">学号:</label>
                         <input type="text" class="form-control" id="username1" style="width: 300px; margin: 10px 50px; " disabled>
                     </div>
                     <div class="form-group">
@@ -175,81 +182,101 @@
 </div>
 
 <script type="text/javascript">
-    // 修改功能模态框 文本框传值
-    $("#myModal").on("show.bs.modal", function (e) {
-        $("#username").val($(e.relatedTarget).data("username") )
-        $("#username1").val($(e.relatedTarget).data("username") )
-        $('#password').val($(e.relatedTarget).data("password"))
-        $('#sname').val($(e.relatedTarget).data("sname"))
-        $('#classname').val($(e.relatedTarget).data("classname"))
-        // $('#major').text($(e.relatedTarget).data("major"))
-        Major = $(e.relatedTarget).data("major")
-    } )
-
-
     $(function () {
         // 去掉文本框所有拼写检查
         $("input[type='text'],textarea").attr('spellcheck',false);
-        getMajors_query();
-        getGrades_query();
+
+        // 修改功能模态框 文本框传值
+        $("#myModal").on("show.bs.modal", function (e) {
+            $("#username").val($(e.relatedTarget).data("username") )
+            $("#username1").val($(e.relatedTarget).data("username") )
+            $('#password').val($(e.relatedTarget).data("password"))
+            $('#sname').val($(e.relatedTarget).data("sname"))
+            $('#classname').val($(e.relatedTarget).data("classname"))
+            // $('#major').text($(e.relatedTarget).data("major"))
+            Major = $(e.relatedTarget).data("major")
+        } )
+
+        // 修改功能（专业）下拉菜单
+        $('#updateButton').click(function() {
+            $.get(
+                "${pageContext.request.contextPath}/SelectMajor",
+                {school : "${sessionScope.user.school}"},
+                function(data) {
+                    var html = "<option value='"+Major+"'>"+Major+"</option> ";
+                    $.each(data, function(i, major) { // 遍历json数组应该将data 放在里面
+                        if ( Major!= major.name )
+                            html += "<option value='"+major.name+"'>"+major.name+"</option> ";
+                    })
+                    $('#major').html(html);
+                },
+                "json"
+            )
+        })
+
+        // 查询功能（专业）下拉菜单
+        getMajors_query = function() {
+            $.get(
+                "${pageContext.request.contextPath}/SelectMajor",
+                {school : "${sessionScope.user.school}"},
+                function(data) {
+                    var html = "<option value=''></option> ";
+                    $.each(data, function(i, major) { // 遍历json数组应该将data 放在里面
+                        if ( "${condition.major[0]}" == major.name )
+                            html += "<option value='"+major.name+"' selected='selected'>"+major.name+"</option> ";
+                        else
+                            html += "<option value='"+major.name+"'>"+major.name+"</option> ";
+                    })
+                    $('#major_query').html(html);
+                },
+                "json"
+            )
+        }
+
+        // 查询功能（年级）下拉菜单
+        getGrades_query = function() {
+            $.get(
+                "${pageContext.request.contextPath}/SelectGrade",
+                {school : "${sessionScope.user.school}"},
+                function (data) {
+                    var html = "<option value=''></option> ";
+                    $.each(data, function(i, grade) { // 遍历json数组应该将data 放在里面
+                        if ( "${condition.grade[0]}" == grade.name )
+                            html += "<option value='"+grade.name+"' selected='selected'>"+grade.name+"</option> ";
+                        else
+                            html += "<option value='"+grade.name+"'>"+grade.name+"</option> ";
+                    })
+                    $('#grade_query').html(html);
+                },
+                "json"
+            )
+        }
+
+        // 删除选中
+        $('#delButton').click(function () {
+            var request = "?";
+            $('.boxs:checked').each(function (i, box){
+                request += "id=" + box.value + "&";
+            })
+            request = request.substring(0, request.length - 1)
+            $.post(
+                "${pageContext.request.contextPath}/deleteStudent"+request,
+                function () {
+                    window.location.href="${pageContext.request.contextPath}/studentData?currentPage=${pageBean.currentPage}&rows=${rows}&major=${condition.major[0]}&grade=${condition.grade[0]}&className=${condition.className[0]}&sname=${condition.sname[0]}&sno=${condition.sno[0]}"
+                }
+            );
+        })
+
+        // 复选框的全选功能
+        $('#firstCB').click( function () {
+            $.each($('.boxs'), function (i, box) {
+                box.checked = $('#firstCB')[0].checked;
+            })
+        })
+
     })
 
-    // 修改功能（专业）下拉菜单
-    getMajors = function() {
-        $.get(
-        "${pageContext.request.contextPath}/SelectMajor",
-            {school : "${sessionScope.user.school}"},
-        function(data) {
-            var html = "<option value='"+Major+"'>"+Major+"</option> ";
-            $.each(data, function(i, major) { // 遍历json数组应该将data 放在里面
-                if ( Major!= major.name )
-                    html += "<option value='"+major.name+"'>"+major.name+"</option> ";
-            })
-            $('#major').html(html);
-        },
-        "json"
-        )
-    }
 
-    // 查询功能（专业）下拉菜单
-    getMajors_query = function() {
-        $.get(
-            "${pageContext.request.contextPath}/SelectMajor",
-            {school : "${sessionScope.user.school}"},
-            function(data) {
-                if ( "${condition.major[0]}" != "" )
-                    var html = "<option value='${condition.major[0]}'>${condition.major[0]}</option> ";
-                else
-                    var html = "<option value=''></option> ";
-                $.each(data, function(i, major) { // 遍历json数组应该将data 放在里面
-                    if ( "${condition.major[0]}"!= major.name )
-                        html += "<option value='"+major.name+"'>"+major.name+"</option> ";
-                })
-                $('#major_query').html(html);
-            },
-            "json"
-        )
-    }
-
-    // 查询功能（年级）下拉菜单
-    getGrades_query = function() {
-        $.get(
-            "${pageContext.request.contextPath}/SelectGrade",
-            {school : "${sessionScope.user.school}"},
-            function (data) {
-                if ( "${condition.grade[0]}" != "" )
-                    var html = "<option value='${condition.grade[0]}'>${condition.grade[0]}</option> ";
-                else
-                    var html = "<option value=''></option> ";
-                $.each(data, function(i, grade) { // 遍历json数组应该将data 放在里面
-                    if ( "${condition.grade[0]}"!= grade.name )
-                        html += "<option value='"+grade.name+"'>"+grade.name+"</option> ";
-                })
-                $('#grade_query').html(html);
-            },
-            "json"
-        )
-    }
 </script>
 
 
